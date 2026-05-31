@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supervisão Clínica — Diego Moreira</title>
+<meta name="description" content="Supervisão clínica em grupo pequeno, ao vivo, toda semana. Tu trazes teus casos reais e a gente acha a porta de saída — a do paciente e a tua.">
+<meta property="og:title" content="Supervisão Clínica — Diego Moreira">
+<meta property="og:description" content="Supervisão clínica em grupo pequeno, ao vivo. Pra quem atende psicoterapia: estudantes, psicólogos, psiquiatras e terapeutas.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f1e8;
+    --paper-2:#efe9dc;
+    --ink:#23201c;
+    --ink-soft:#5f574c;
+    --line:#d8cebb;
+    --accent:#7a2c25;
+    --accent-deep:#5f211c;
+    --display:'Fraunces',Georgia,serif;
+    --body:'Newsreader',Georgia,serif;
+    --label:'Hanken Grotesk',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:19px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* faint paper grain */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  .narrow{max-width:760px}
+
+  a{color:inherit}
+  .eyebrow{
+    font-family:var(--label);font-weight:600;font-size:12.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent);display:inline-block;margin-bottom:22px;
+  }
+  h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.08;letter-spacing:-.01em}
+  h1{font-size:clamp(2.5rem,6vw,4.6rem);font-weight:340}
+  h2{font-size:clamp(1.9rem,3.6vw,3rem);font-weight:360}
+  h3{font-size:1.42rem;font-weight:440;line-height:1.2}
+  p{color:var(--ink-soft)}
+  .lead{font-size:1.32rem;color:var(--ink);line-height:1.5}
+  em{font-style:italic}
+  strong{font-weight:500;color:var(--ink)}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:.6em;font-family:var(--label);font-weight:600;
+    font-size:15px;letter-spacing:.02em;text-decoration:none;background:var(--accent);color:#f7f2ea;
+    padding:17px 30px;border-radius:4px;transition:all .3s ease;
+    box-shadow:0 4px 14px rgba(122,44,37,.15);
+  }
+  .btn:hover{background:var(--accent-deep);transform:translateY(-2px);box-shadow:0 6px 20px rgba(122,44,37,.25);}
+  .btn .arw{transition:transform .25s ease}
+  .btn:hover .arw{transform:translateX(4px)}
+  .btn-ghost{background:transparent;color:var(--accent);padding:0;border-bottom:1px solid var(--accent);border-radius:0}
+  .btn-ghost:hover{background:transparent;transform:none;color:var(--accent-deep)}
+
+  /* ---- top bar ---- */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(245,241,232,.86);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1080px;margin:0 auto;padding:16px 28px;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-family:var(--display);font-size:1.18rem;letter-spacing:-.01em}
+  .brand span{color:var(--accent)}
+  .nav-cta{font-family:var(--label);font-weight:600;font-size:13.5px;letter-spacing:.04em;
+    text-decoration:none;color:var(--ink);border:1px solid var(--ink);padding:9px 18px;border-radius:2px;
+    transition:.2s}
+  .nav-cta:hover{background:var(--ink);color:var(--paper)}
+
+  section{padding:96px 0}
+  .rule{height:1px;background:var(--line);max-width:1080px;margin:0 auto}
+
+  /* ---- hero ---- */
+  .hero{padding:108px 0 92px}
+  .hero h1{max-width:16ch;margin-bottom:30px}
+  .hero .lead{max-width:42ch;margin-bottom:40px}
+  .hero-meta{font-family:var(--label);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);margin-top:26px}
+  .hero-meta b{color:var(--accent);font-weight:600}
+
+  /* fade-up */
+  .fu{opacity:0;transform:translateY(20px);animation:fu .9s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes fu{to{opacity:1;transform:none}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.32s}.d4{animation-delay:.46s}
+
+  /* reveal on scroll */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
+  .rv.in{opacity:1;transform:none}
+
+  /* ---- generic intro block ---- */
+  .blk p+p{margin-top:1.1em}
+
+  /* ---- cenarios ---- */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:54px;border-top:1px solid var(--line)}
+  .card{padding:40px 30px 44px;border-bottom:1px solid var(--line);transition:background .3s ease;}
+  .card:hover{background:var(--paper-2);}
+  .card:not(:last-child){border-right:1px solid var(--line)}
+  .card .num{font-family:var(--display);font-style:italic;font-size:1.1rem;color:var(--accent);display:block;margin-bottom:18px}
+  .card h3{margin-bottom:14px}
+  .card p{font-size:1.02rem;line-height:1.55}
+  .card .quote{font-family:var(--display);font-style:italic;color:var(--ink);font-size:1.08rem;
+    margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);line-height:1.4}
+  .after-cards{margin-top:38px;font-family:var(--display);font-style:italic;font-size:1.3rem;
+    color:var(--ink);max-width:52ch;line-height:1.42}
+
+  /* ---- tese ---- */
+  .tese{background:var(--ink);color:#e8e2d6}
+  .tese .eyebrow{color:#c98a7f}
+  .tese h2{color:#f3ede1;max-width:24ch;margin-bottom:34px}
+  .tese p{color:#c5bdb0}
+  .tese strong{color:#f3ede1}
+  .tese em{color:#e8c9bf}
+  .tese .blk p+p{margin-top:1.25em}
+
+  /* ---- como funciona / grids ---- */
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:50px}
+  .grid2 .it{background:var(--paper);padding:34px 32px;transition:background .3s ease;}
+  .grid2 .it:hover{background:var(--paper-2);}
+  .grid2 .it h3{font-size:1.22rem;margin-bottom:12px}
+  .grid2 .it h3 .mk{font-family:var(--label);font-size:12px;color:var(--accent);letter-spacing:.1em;
+    display:block;margin-bottom:8px;font-weight:600}
+  .grid2 .it p{font-size:1.02rem;line-height:1.52}
+
+  /* ---- leva (list) ---- */
+  .leva{margin-top:46px;border-top:1px solid var(--line)}
+  .leva .row{display:grid;grid-template-columns:auto 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .leva .mk{font-family:var(--display);font-style:italic;color:var(--accent);font-size:1.2rem}
+  .leva h3{font-size:1.2rem;margin-bottom:6px}
+  .leva p{font-size:1.04rem;line-height:1.5}
+
+  /* ---- bio ---- */
+  .bio{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:start}
+  .bio .ig{font-family:var(--label);font-size:13.5px;letter-spacing:.04em;color:var(--accent);
+    text-decoration:none;margin-top:24px;display:inline-block;font-weight:600}
+  .bio-photo{aspect-ratio:4/5;background:var(--paper-2);border:1px solid var(--line);
+    display:flex;align-items:flex-end;padding:22px;position:relative;overflow:hidden}
+  .bio-photo span{font-family:var(--label);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .bio-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* ---- pra quem ---- */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:48px;border:1px solid var(--line)}
+  .twocol .col{padding:38px 34px}
+  .twocol .col:first-child{border-right:1px solid var(--line)}
+  .twocol h3{font-size:1.28rem;margin-bottom:24px}
+  .twocol ul{list-style:none}
+  .twocol li{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:13px 0;font-size:1.02rem;
+    color:var(--ink-soft);line-height:1.46;border-bottom:1px solid var(--line)}
+  .twocol li:last-child{border-bottom:0}
+  .twocol .ic{font-family:var(--label);font-weight:700;font-size:15px;line-height:1.5}
+  .yes .ic{color:var(--accent)}
+  .no .ic{color:#a99c86}
+
+  /* ---- entrar ---- */
+  .entrar{background:var(--paper-2)}
+  .entrar .blk{max-width:60ch}
+
+  /* ---- dois caminhos ---- */
+  .paths{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:48px}
+  .path{background:var(--paper);padding:40px 34px;transition:transform .3s ease;}
+  .path:hover{transform:translateY(-2px);}
+  .path .tag{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:16px;display:block}
+  .path.a{color:var(--ink-soft)}
+  .path.a .tag{color:var(--ink-soft)}
+  .path.b{background:var(--ink)}
+  .path.b .tag{color:#c98a7f}
+  .path.b h3,.path.b p{color:#e8e2d6}
+  .path h3{font-size:1.3rem;margin-bottom:14px}
+  .path p{font-size:1.05rem;line-height:1.52}
+
+  /* ---- faq ---- */
+  .faq{border-top:1px solid var(--line);margin-top:46px}
+  details{border-bottom:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;padding:24px 0;font-family:var(--display);font-size:1.2rem;
+    color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:20px}
+  summary::-webkit-details-marker{display:none}
+  summary .pl{font-family:var(--label);font-size:1.4rem;color:var(--accent);transition:transform .25s;flex-shrink:0}
+  details[open] summary .pl{transform:rotate(45deg)}
+  details .ans{padding:0 0 26px;font-size:1.05rem;color:var(--ink-soft);max-width:64ch;line-height:1.56}
+
+  /* ---- center CTA ---- */
+  .cta-center{text-align:center}
+  .cta-center h2{margin:0 auto 30px;max-width:20ch}
+  .cta-sub{font-family:var(--label);font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);margin-top:22px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);padding:42px 0 56px}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+  .foot-in .l{font-family:var(--label);font-size:13px;letter-spacing:.04em;color:var(--ink-soft)}
+  .foot-in a{color:var(--accent);text-decoration:none}
+
+  @media(max-width:860px){
+    body{font-size:18px}
+    section{padding:72px 0}
+    .cards{grid-template-columns:1fr}
+    .card:not(:last-child){border-right:0}
+    .grid2,.twocol,.paths{grid-template-columns:1fr}
+    .twocol .col:first-child{border-right:0;border-bottom:1px solid var(--line)}
+    .bio{grid-template-columns:1fr;gap:34px}
+    .bio-photo{aspect-ratio:16/10;max-width:340px}
+    .nav-cta{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand">Supervisão <span>Clínica</span></div>
+    <a class="nav-cta" href="https://api.whatsapp.com/send?phone=5553984255604&text=gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20supervis%C3%A3o" target="_blank" rel="noopener">Quero conversar</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow fu d1">Supervisão Clínica · Diego Moreira</span>
+    <h1 class="fu d2">Onde tu travas com um paciente, quase sempre é onde tu te enredaste nele.</h1>
+    <p class="lead fu d3">Supervisão em grupo pequeno, ao vivo, toda semana. Tu trazes teus casos reais — e a gente acha a porta de saída. A do paciente e, quase sempre, a tua.</p>
+    <div class="fu d4">
+      <a class="btn" href="https://api.whatsapp.com/send?phone=5553984255604&text=gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20supervis%C3%A3o" target="_blank" rel="noopener">Quero uma conversa <span class="arw">→</span></a>
+      <div class="hero-meta">Turmas pequenas · <b>entrada por conversa</b></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- INTRO / INCÔMODO -->
+<section>
+  <div class="wrap narrow blk rv">
+    <p class="lead" style="margin-bottom:1.2em;">Tu estudaste a abordagem. Sabes a teoria. Conduzes a sessão com cuidado. E mesmo assim tem caso que não anda — e tu não sabes dizer por quê.</p>
+    <p>Não é falta de mais um curso de técnica. Quase sempre, quando o caso trava, é porque tu entraste no mundo psíquico do paciente e ficaste preso lá junto com ele — confuso com a confusão dele. A supervisão existe pra te puxar de volta e te mostrar a saída.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- TRÊS CENAS -->
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">Três cenas da clínica</span>
+      <h2 style="max-width:18ch;">O incômodo costuma aparecer de um destes três jeitos.</h2>
+    </div>
+    <div class="cards rv">
+      <div class="card">
+        <span class="num">Cena 01</span>
+        <h3>O caso que não anda</h3>
+        <p>Faz meses. Tu já tentaste tudo que sabes e o paciente segue rodando em volta da mesma queixa. Sais da sessão com a sensação de estar cavando o problema com ele — e quanto mais cavas, pior.</p>
+        <p class="quote">“Não sei mais por onde pegar esse caso.”</p>
+      </div>
+      <div class="card">
+        <span class="num">Cena 02</span>
+        <h3>A contratransferência que tu não vês sozinho</h3>
+        <p>Tem paciente que te deixa irritado, impaciente, com vontade de sacudir. E tu não sabes se a irritação é tua ou se ele está te entregando a dele. Sozinho, tu não enxergas.</p>
+        <p class="quote">“Será que isso é meu ou é dele?”</p>
+      </div>
+      <div class="card">
+        <span class="num">Cena 03</span>
+        <h3>A solidão de quem cuida</h3>
+        <p>Tu carregas o peso de vários casos e não tens com quem dividir. Não dá pra desabafar com amigo nem com a família — tem o sigilo, e eles não entenderiam mesmo. Falta um lugar firme onde tu também sejas ouvido.</p>
+        <p class="quote">“Eu seguro todo mundo. Quem me segura?”</p>
+      </div>
+    </div>
+    <p class="after-cards rv">As três têm a mesma raiz: tu ficaste preso no mundo psíquico de alguém — às vezes o do paciente, às vezes o teu.</p>
+  </div>
+</section>
+
+<!-- TESE -->
+<section class="tese">
+  <div class="wrap narrow blk rv">
+    <span class="eyebrow">A tese</span>
+    <h2>A terapia que funciona afasta o paciente do próprio labirinto. A supervisão faz o mesmo contigo.</h2>
+    <p>Toda supervisão bem conduzida parte de um movimento só: <strong>sair</strong>. Sair do mundo psíquico em que o paciente te enredou, achar a porta e levá-lo por ela. Quando tu travas, é porque a porta sumiu — e ela quase sempre some porque alguma coisa <em>tua</em> entrou na cena.</p>
+    <p>Por isso a supervisão tem, querendo ou não, o caráter de uma terapia em grupo. Não é terapia. Mas a gente trabalha as tuas contratransferências, porque é nelas que o caso emperra. O lugar onde tu travas com o paciente é, com frequência, o retrato de algo teu que ainda não foi olhado.</p>
+    <p>E tem um ganho que vem de brinde: depois de um tempo lendo casos por dentro, tu começas a prever. A gente brinca de bola de cristal — <em>“o que esse paciente vai fazer?”</em> — e acerta. Não é magia. É entender o sistema que move a pessoa e enxergar pra onde ele a leva.</p>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">Como funciona</span>
+      <h2 style="max-width:18ch;">Ao vivo, toda semana, em grupo pequeno.</h2>
+    </div>
+    <div class="grid2 rv">
+      <div class="it">
+        <h3><span class="mk">Encontro semanal</span>Ao vivo, toda quinta-feira</h3>
+        <p>Tu trazes um caso real e a gente supervisiona ali, na frente da turma. Nada gravado e mastigado — a clínica acontecendo em tempo real.</p>
+      </div>
+      <div class="it">
+        <h3><span class="mk">Formato</span>Turmas pequenas</h3>
+        <p>Poucas pessoas por turma. É o que torna possível o caráter de terapia em grupo e o cuidado com a contratransferência de cada um.</p>
+      </div>
+      <div class="it">
+        <h3><span class="mk">Ponto de partida</span>O caso real na mesa</h3>
+        <p>Nada de teoria solta. Parte-se sempre de uma demanda concreta — tua ou de um colega — e a teoria entra pra resolver aquilo, não pra enfeitar.</p>
+      </div>
+      <div class="it">
+        <h3><span class="mk">Chão por baixo</span>A base que sustenta</h3>
+        <p>Antropologia clássica, logoterapia, a leitura do vínculo. Mas sempre amarrada ao caso que está na mesa — nunca como erudição vazia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- O QUE TU LEVA -->
+<section>
+  <div class="wrap narrow">
+    <div class="rv">
+      <span class="eyebrow">O que tu levas</span>
+      <h2 style="max-width:16ch;">Mais do que supervisão de casos.</h2>
+    </div>
+    <div class="leva rv">
+      <div class="row"><span class="mk">i.</span><div><h3>Supervisão semanal ao vivo dos teus casos</h3><p>Com a turma e comigo, em cima dos teus pacientes reais.</p></div></div>
+      <div class="row"><span class="mk">ii.</span><div><h3>Um grupo de pares que segura junto</h3><p>O espaço de desabafo que a clínica não te dá em nenhum outro lugar.</p></div></div>
+      <div class="row"><span class="mk">iii.</span><div><h3>O trabalho das tuas contratransferências</h3><p>O que te trava no paciente, finalmente olhado de fora.</p></div></div>
+      <div class="row"><span class="mk">iv.</span><div><h3>Acesso a todos os meus cursos</h3><p>Teoria do Vínculo Terapêutico, o propedêutico de psicologia, o curso de afetos, Ordem e Rotina, o Caminho do Terapeuta e os demais — incluídos enquanto tu estiveres na supervisão.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- BIO -->
+<section>
+  <div class="wrap bio rv">
+    <div class="bio-photo">
+      <img src="https://mhp.odiegomoreira.com.br/foto-diego.png" alt="Diego Moreira, psicólogo clínico" onerror="this.style.display='none'">
+      <span>Diego Moreira</span>
+    </div>
+    <div class="blk">
+      <span class="eyebrow">Quem conduz</span>
+      <h2 style="margin-bottom:24px;">Sou Diego Moreira.</h2>
+      <p>Psicólogo clínico há cerca de 10 anos, com consultório próprio, e há mais de 2 anos supervisiono outros psicoterapeutas. Minha prática integra a filosofia clássica, a psicologia e o que de fato acontece dentro de uma sessão.</p>
+      <p style="margin-top:1.1em;">Esta não é supervisão de quem parou de atender. É a minha clínica aberta — o mesmo modo de ler um caso que eu uso todos os dias, agora com a tua turma e em cima dos teus pacientes.</p>
+      <a class="ig" href="https://www.instagram.com/odiego.moreira/" target="_blank" rel="noopener">@odiego.moreira →</a>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- PRA QUEM É -->
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">Pra quem é</span>
+      <h2 style="max-width:20ch;">A supervisão é pra quem atende psicoterapia.</h2>
+    </div>
+    <div class="twocol rv">
+      <div class="col yes">
+        <h3>É pra ti se</h3>
+        <ul>
+          <li><span class="ic">✓</span><span>Tu atendes psicoterapia — estudante de psicologia, recém-formado, psicólogo, psiquiatra ou terapeuta de qualquer abordagem.</span></li>
+          <li><span class="ic">✓</span><span>Tu tens caso que não anda e desconfias que parte do nó é teu.</span></li>
+          <li><span class="ic">✓</span><span>Tu queres uma supervisão com profundidade antropológica, não só ajuste de técnica.</span></li>
+          <li><span class="ic">✓</span><span>Tu sentes falta de um grupo firme pra dividir o peso da clínica.</span></li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h3>Não é pra ti se</h3>
+        <ul>
+          <li><span class="ic">✕</span><span>Tu queres só um protocolo pronto que te dispense de te olhar.</span></li>
+          <li><span class="ic">✕</span><span>Tu acreditas que basta a técnica certa pro paciente melhorar.</span></li>
+          <li><span class="ic">✕</span><span>Tu não estás disposto a trabalhar as tuas próprias reações dentro do grupo.</span></li>
+          <li><span class="ic">✕</span><span>Tu procuras uma plateia que valide tudo, e não alguém que te confronte com cuidado.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO ENTRAR -->
+<section class="entrar" id="entrar">
+  <div class="wrap blk rv">
+    <span class="eyebrow">Como entrar</span>
+    <h2 style="max-width:18ch;margin-bottom:24px;">A entrada passa por uma conversa.</h2>
+    <p style="max-width:60ch;">As turmas são pequenas e estão em andamento — por isso, e pelo caráter de terapia em grupo, ninguém entra direto. Primeiro a gente conversa: eu quero entender o teu momento e ver se o perfil encaixa na turma.</p>
+    <p style="max-width:60ch;margin-top:1.1em;">É um compromisso mensal, mais acessível que a supervisão avulsa que tu encontras por aí — mas o que define a entrada não é o valor, é o encaixe.</p>
+    <div style="margin-top:36px;">
+      <a class="btn" href="https://api.whatsapp.com/send?phone=5553984255604&text=gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20supervis%C3%A3o" target="_blank" rel="noopener">Quero conversar com o Diego <span class="arw">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- DOIS CAMINHOS -->
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">No fim</span>
+      <h2 style="max-width:18ch;">No fundo, sobram dois caminhos.</h2>
+    </div>
+    <div class="paths rv">
+      <div class="path a">
+        <span class="tag">Caminho 1</span>
+        <h3>Seguir sozinho</h3>
+        <p>Levando os casos travados pra casa, cavando o problema junto com o paciente, sem ninguém pra apontar onde foi que tu entraste na cena.</p>
+      </div>
+      <div class="path b">
+        <span class="tag">Caminho 2</span>
+        <h3>Entrar na turma</h3>
+        <p>Trazer o caso, achar a porta de saída — a do paciente e a tua — e parar de carregar a clínica sozinho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap narrow">
+    <div class="rv">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2 style="max-width:20ch;">Dúvidas rápidas antes da conversa.</h2>
+    </div>
+    <div class="faq rv">
+      <details>
+        <summary>É individual ou em grupo?<span class="pl">+</span></summary>
+        <div class="ans">Em grupo, turmas pequenas. É o formato que permite trabalhar a contratransferência de cada um e dá o caráter de terapia em grupo.</div>
+      </details>
+      <details>
+        <summary>Quando acontece?<span class="pl">+</span></summary>
+        <div class="ans">Ao vivo, toda quinta-feira.</div>
+      </details>
+      <details>
+        <summary>É terapia?<span class="pl">+</span></summary>
+        <div class="ans">Não. Mas como a gente trabalha as tuas reações e contratransferências, tem o caráter de uma terapia em grupo. Boa parte do que trava um caso está no terapeuta, não só no paciente.</div>
+      </details>
+      <details>
+        <summary>Sou estudante / ainda não atendo muito. Posso entrar?<span class="pl">+</span></summary>
+        <div class="ans">Pode. A supervisão é pra quem atende ou vai atender psicoterapia, incluindo estudantes de psicologia que levam o tema a sério.</div>
+      </details>
+      <details>
+        <summary>Preciso trazer caso toda semana?<span class="pl">+</span></summary>
+        <div class="ans">Não. Tu trazes quando tiver — e supervisionar o caso de um colega ensina tanto quanto trazer o teu.</div>
+      </details>
+      <details>
+        <summary>Tenho acesso aos teus cursos?<span class="pl">+</span></summary>
+        <div class="ans">Sim. Enquanto estiveres na supervisão, tens acesso a todos eles.</div>
+      </details>
+      <details>
+        <summary>Como faço pra entrar?<span class="pl">+</span></summary>
+        <div class="ans">Tu pedes uma conversa comigo. A gente alinha o teu momento e o encaixe na turma — as vagas são limitadas justamente por serem turmas pequenas.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-center">
+  <div class="wrap narrow rv">
+    <span class="eyebrow">Vamos conversar</span>
+    <h2>Traz o caso. A gente acha a porta.</h2>
+    <a class="btn" href="https://api.whatsapp.com/send?phone=5553984255604&text=gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20supervis%C3%A3o" target="_blank" rel="noopener">Quero uma conversa <span class="arw">→</span></a>
+    <div class="cta-sub">Turmas pequenas · entrada por conversa</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="l">Diego Moreira · Psicólogo Clínico</div>
+    <div class="l"><a href="https://www.instagram.com/odiego.moreira/" target="_blank" rel="noopener">@odiego.moreira</a></div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
